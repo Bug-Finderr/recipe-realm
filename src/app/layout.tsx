@@ -1,8 +1,8 @@
+import { Providers } from "@/components/providers";
 import ThemeSwitcher from "@/components/theme-switcher";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,10 +21,10 @@ export default function RootLayout({
         className={`${GeistSans.className} ${GeistMono.className} antialiased`}
         suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers>
           <ThemeSwitcher />
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

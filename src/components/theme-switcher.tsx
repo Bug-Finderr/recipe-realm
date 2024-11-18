@@ -13,7 +13,7 @@ const ThemeSwitcher: React.FC = () => {
   };
 
   return (
-    <header className="absolute right-4 top-4">
+    <header className="fixed right-4 top-4 z-50">
       <Button
         variant="ghost"
         size="icon"
