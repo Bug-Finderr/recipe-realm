@@ -2377,10 +2377,6 @@
       "originalId": null,
       "spoonacularScore": 57.90439987182617,
       "spoonacularSourceUrl": "https://spoonacular.com/creamy-chicken-tikka-masala-640621"
-    },
-    "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects.",
-    "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects.",
-    "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects.",
-    "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects."
+    }
   ]
 }

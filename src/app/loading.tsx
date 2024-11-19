@@ -9,10 +9,10 @@ export default function Loading(): React.JSX.Element {
         <div className="bg-grid-small-black/[0.03] dark:bg-grid-small-white/[0.02] absolute inset-0" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <Skeleton className="mx-auto h-[4.5rem] w-3/4 sm:h-[5rem]" />
-            <Skeleton className="mx-auto mt-6 h-[4.5rem] max-w-2xl" />
+            <Skeleton className="mx-auto h-36 w-3/4" />
+            <Skeleton className="mx-auto mt-6 h-14 max-w-2xl" />
             <div className="mt-8 flex justify-center">
-              <Skeleton className="h-11 w-36" />
+              <Skeleton className="h-11 w-44" />
             </div>
           </div>
         </div>
@@ -28,8 +28,8 @@ export default function Loading(): React.JSX.Element {
                 className="group rounded-lg border bg-card p-6 shadow-md"
               >
                 <Skeleton className="h-12 w-12" />
-                <Skeleton className="mt-4 h-7 w-3/4" />
-                <Skeleton className="mt-2 h-[3.75rem] w-full" />
+                <Skeleton className="mt-4 h-7 w-40" />
+                <Skeleton className="mt-2 h-6 w-full" />
               </div>
             ))}
           </div>
@@ -42,11 +42,7 @@ export default function Loading(): React.JSX.Element {
           <Skeleton className="mx-auto mb-12 h-9 w-64" />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="animate-fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
+              <div key={i} className="animate-fade-up">
                 <RecipeCardSkeleton />
               </div>
             ))}

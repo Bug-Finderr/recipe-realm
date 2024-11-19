@@ -1,7 +1,13 @@
 import { RecipeCard } from "@/components/recipe-card";
 import { Button } from "@/components/ui/button";
 import { getRandomRecipes } from "@/services/recipe-service";
-import { ChefHat, Search, Soup, UtensilsCrossed } from "lucide-react";
+import {
+  ChefHatIcon,
+  SearchIcon,
+  SoupIcon,
+  UtensilsCrossedIcon,
+} from "lucide-react";
+import Link from "next/link";
 
 export default async function Home() {
   const { recipes } = await getRandomRecipes({ number: 15 });
@@ -21,9 +27,11 @@ export default async function Home() {
               favorite dish from our collection of 5000+ handpicked recipes.
             </p>
             <div className="mt-8 flex justify-center gap-4">
-              <Button size="lg" className="animate-fade-up group gap-2">
-                <Search className="h-4 w-4 transition-transform group-hover:-rotate-12" />
-                Search Recipes
+              <Button size="lg" asChild animate="gooeyLeft">
+                <Link href="/search">
+                  <SearchIcon className="mr-2 h-4 w-4" />
+                  Search Recipes
+                </Link>
               </Button>
             </div>
           </div>
@@ -35,17 +43,17 @@ export default async function Home() {
         <div className="container relative mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <FeatureCard
-              icon={ChefHat}
+              icon={ChefHatIcon}
               title="Expert Curated"
               description="Recipes from professional chefs and food enthusiasts"
             />
             <FeatureCard
-              icon={UtensilsCrossed}
+              icon={UtensilsCrossedIcon}
               title="Easy to Follow"
               description="Step-by-step instructions with detailed guidance"
             />
             <FeatureCard
-              icon={Soup}
+              icon={SoupIcon}
               title="Diverse Cuisine"
               description="Explore dishes from around the world"
             />
