@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "img.spoonacular.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "spoonacular.com",
+        pathname: "/**",
+      },
     ],
   },
 };

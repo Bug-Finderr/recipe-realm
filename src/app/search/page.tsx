@@ -1,6 +1,6 @@
+import { Pagination } from "@/components/pagination";
 import { RecipeCard } from "@/components/recipe-card";
-import { Pagination } from "@/components/search/pagination";
-import { SearchForm } from "@/components/search/search-form";
+import { SearchForm } from "@/components/search-form";
 import { searchRecipes } from "@/services/recipe-service";
 import { RecipeInformation, SearchRecipesParams } from "@/types/recipe";
 
