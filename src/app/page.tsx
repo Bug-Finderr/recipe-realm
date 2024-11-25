@@ -1,6 +1,8 @@
+"use client";
+
 import { RecipeCard } from "@/components/recipe-card";
 import { Button } from "@/components/ui/button";
-import { getRandomRecipes } from "@/services/recipe-service";
+import { useRandomRecipes } from "@/hooks/useRecipes";
 import {
   ChefHatIcon,
   SearchIcon,
@@ -8,9 +10,12 @@ import {
   UtensilsCrossedIcon,
 } from "lucide-react";
 import Link from "next/link";
+import Loading from "./loading";
 
-export default async function Home() {
-  const { recipes } = await getRandomRecipes({ number: 15 });
+export default function Home() {
+  const { data, isLoading } = useRandomRecipes({ number: 15 });
+
+  if (isLoading) return <Loading />;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100/50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800/50">
@@ -68,7 +73,7 @@ export default async function Home() {
             Featured Recipes
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {recipes.map((recipe) => (
+            {data?.recipes.map((recipe) => (
               <div key={recipe.id} className="animate-fade-up">
                 <RecipeCard recipe={recipe} />
               </div>

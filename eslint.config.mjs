@@ -1,5 +1,6 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 import prettier from "eslint-plugin-prettier";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
@@ -16,7 +17,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ["**/.next/"],
+    ignores: ["**/.next/", "**/*.mjs"],
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     languageOptions: {
       parser: tseslint.parser,
@@ -35,6 +36,7 @@ const eslintConfig = [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylisticTypeChecked,
+  ...pluginQuery.configs["flat/recommended"],
   pluginReact.configs.flat.recommended,
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {

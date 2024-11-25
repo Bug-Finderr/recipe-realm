@@ -1,31 +1,29 @@
+"use client";
+
 import { Pagination } from "@/components/pagination";
 import { RecipeCard } from "@/components/recipe-card";
 import { SearchForm } from "@/components/search-form";
-import { searchRecipes } from "@/services/recipe-service";
-import { RecipeInformation, SearchRecipesParams } from "@/types/recipe";
-
-// TODO: nuqs
+import { useSearchRecipes } from "@/hooks/useRecipes";
+import { RecipeInformation } from "@/types/recipe";
+import { useSearchParams } from "next/navigation";
+import Loading from "./loading";
 
 const ITEMS_PER_PAGE = 12;
 
-interface SearchPageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
-
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const params = await searchParams;
-  const query = typeof params.q === "string" ? params.q : "";
-  const page = typeof params.page === "string" ? parseInt(params.page) : 1;
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") ?? "";
+  const page = parseInt(searchParams.get("page") ?? "1");
   const offset = (page - 1) * ITEMS_PER_PAGE;
 
-  const searchResults = query
-    ? await searchRecipes({
-        query,
-        addRecipeInformation: true,
-        number: ITEMS_PER_PAGE,
-        offset,
-      } as SearchRecipesParams)
-    : null;
+  const { data: searchResults, isLoading } = useSearchRecipes({
+    query,
+    addRecipeInformation: true,
+    number: ITEMS_PER_PAGE,
+    offset,
+  });
+
+  if (isLoading && query) return <Loading />;
 
   const totalPages = searchResults
     ? Math.ceil(searchResults.totalResults / ITEMS_PER_PAGE)

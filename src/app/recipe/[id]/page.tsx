@@ -1,6 +1,8 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { getRecipeInformation } from "@/services/recipe-service";
+import { useRecipeInformation } from "@/hooks/useRecipes";
 import {
   CheckIcon,
   ChefHatIcon,
@@ -14,23 +16,38 @@ import {
   UtensilsIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { use } from "react";
+import Loading from "./loading";
 
-interface RecipePageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
+export default function RecipePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
 
-export default async function RecipePage({ params }: RecipePageProps) {
-  const { id } = await params;
-  const recipe = await getRecipeInformation({ id: parseInt(id) });
-
+  const {
+    data: recipe,
+    isLoading,
+    isError,
+  } = useRecipeInformation({
+    id: parseInt(id),
+  });
   const dietaryTags = [
-    recipe.vegetarian ? "Vegetarian" : null,
-    recipe.vegan ? "Vegan" : null,
-    recipe.glutenFree ? "Gluten Free" : null,
-    recipe.dairyFree ? "Dairy Free" : null,
+    recipe?.vegetarian ? "Vegetarian" : null,
+    recipe?.vegan ? "Vegan" : null,
+    recipe?.glutenFree ? "Gluten Free" : null,
+    recipe?.dairyFree ? "Dairy Free" : null,
   ].filter(Boolean);
+
+  if (isLoading) return <Loading />;
+  if (isError || !recipe) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-muted-foreground">Recipe not found</p>
+      </div>
+    );
+  }
 
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-gray-50/80 via-white to-gray-100/50 dark:from-gray-950 dark:via-gray-900/80 dark:to-gray-800/50">
@@ -146,7 +163,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
             {/* Recipe Metadata */}
             <Card className="divide-y bg-white/80 p-6 backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 dark:bg-gray-950/50">
-              <div className="mb-4">
+              <div>
                 <h3 className="mb-3 font-semibold">Cuisine & Type</h3>
                 <div className="flex flex-wrap gap-2">
                   {recipe.cuisines.map((cuisine, index) => (
@@ -169,26 +186,28 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   ))}
                 </div>
               </div>
-              <div className="py-4">
-                <h3 className="mb-3 font-semibold">Special Attributes</h3>
-                <div className="flex flex-wrap gap-2">
-                  {recipe.veryHealthy && (
-                    <Badge className="bg-green-500/80 text-white backdrop-blur-sm hover:bg-green-500/90">
-                      Very Healthy
-                    </Badge>
-                  )}
-                  {recipe.cheap && (
-                    <Badge className="bg-blue-500/80 text-white backdrop-blur-sm hover:bg-blue-500/90">
-                      Budget Friendly
-                    </Badge>
-                  )}
-                  {recipe.sustainable && (
-                    <Badge className="bg-emerald-500/80 text-white backdrop-blur-sm hover:bg-emerald-500/90">
-                      Sustainable
-                    </Badge>
-                  )}
+              {(recipe.veryHealthy || recipe.cheap || recipe.sustainable) && (
+                <div className="mt-4 py-4">
+                  <h3 className="mb-3 font-semibold">Special Attributes</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.veryHealthy && (
+                      <Badge className="bg-green-500/80 text-white backdrop-blur-sm hover:bg-green-500/90">
+                        Very Healthy
+                      </Badge>
+                    )}
+                    {recipe.cheap && (
+                      <Badge className="bg-blue-500/80 text-white backdrop-blur-sm hover:bg-blue-500/90">
+                        Budget Friendly
+                      </Badge>
+                    )}
+                    {recipe.sustainable && (
+                      <Badge className="bg-emerald-500/80 text-white backdrop-blur-sm hover:bg-emerald-500/90">
+                        Sustainable
+                      </Badge>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </Card>
           </div>
 
